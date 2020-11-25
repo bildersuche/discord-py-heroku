@@ -22,12 +22,11 @@ helpmessages = {
     "info": ["***__Info__***", "info", "myinvites", "invitesby", "rank"],
     "fun": [
         "***__Fun__***", "rand", "randint", "embed", "react",
-        "reactones", "reactto", "sendreact","music", "sendanimoji","img","text"
+        "reactones", "reactto", "sendreact","music", "sendanimoji","search","text"
     ],
     "giveaways": ["***__Giveaways__***", "rolls", "start", "roll", "reroll"],
     "about": ["***__About me__***", "h", "invite", "join", "count"]
 }
-
 @client.command()
 async def usercount(ctx):
   embed = discord.Embed(title="User count", description=len(client.users), color=123456)
@@ -47,7 +46,7 @@ async def music(ctx,*arg):
   embed=discord.Embed(title="Feature",description="Coming soon",color=123456)
   await ctx.send(embed=embed)
 @client.command(description="Send an image")
-async def img(ctx,*arg):
+async def search(ctx,*arg):
     embed=discord.Embed(color=123456)
     embed.set_image(url="https://th.bing.com/th/id/OIP.lVGMMepXbOaen9R7b_XBbQHaE8?pid=Api&q="+str(arg).replace(" ","%20")+"&rs=1&adlt=strict")
     await ctx.send(embed=embed)
