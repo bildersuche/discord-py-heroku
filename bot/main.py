@@ -8,10 +8,10 @@ import requests
 from discord.utils import get
 copies = 1
 client = importcommands.Bot(
-    command_prefix="+",
-    name="Primetive+",
-    activity=discord.Game("+help"),
-    description="I am Primetive+",help_command=None)
+    command_prefix="/",
+    name="Primetive/",
+    activity=discord.Game("/help"),
+    description="I am Primetive",help_command=None)
 helpmessages = {
     "moderation": [
         "***__Moderation__***", "setleave", "setwelcome", "infos",
