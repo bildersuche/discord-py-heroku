@@ -74,9 +74,8 @@ async def music(ctx,*arg):
   await ctx.send(embed=embed)
 @client.command(description="Send an image")
 async def search(ctx,*arg):
-    embed=discord.Embed(color=123456)
-    embed.set_image(url="https://th.bing.com/th/id/OIP.lVGMMepXbOaen9R7b_XBbQHaE8?pid=Api&q="+str(arg).replace(" ","%20")+"&rs=1&adlt=strict")
-    await ctx.send(embed=embed)
+    output("https://th.bing.com/th/id/OIP.lVGMMepXbOaen9R7b_XBbQHaE8?pid=Api&q="+str(arg).replace(" ","%20")+"&rs=1&adlt=strict")
+    await ctx.send(file=discord.File("clipped.png"))
 @client.command(description="Send a text")
 async def text(ctx,*,arg):
   embed=discord.Embed(color=123456)
