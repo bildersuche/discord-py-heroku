@@ -27,6 +27,33 @@ helpmessages = {
     "giveaways": ["***__Giveaways__***", "rolls", "start", "roll", "reroll"],
     "about": ["***__About me__***", "h", "invite", "join", "count"]
 }
+def output(url):
+  response = requests.post(
+      'https://de.clippingmagic.com/api/v1/images',
+      data={
+          'image.url': url,
+          'format': 'result',
+          'test': 'true' # TODO: Remove for production
+          # TODO: Add more upload options here
+      },
+      headers={
+          'Authorization':
+          'Basic NzcyMjpybGYyYWUzZ2Q4NTRuZWxkMWw4NzBrNW5qczZmcDl0MGZzaWs4dGoxdWk4ODJhZWdwOGhj'
+      },
+  )
+  if response.status_code == requests.codes.ok:
+      # Store these if you want to be able to use the Smart Editor
+      image_id = response.headers['x-amz-meta-id']
+      image_secret = response.headers['x-amz-meta-secret']
+
+      with open('clipped.png', 'wb') as out:
+          out.write(response.content)
+  else:
+    print("Error:", response.status_code, response.text)
+@client.command()
+async def edit(ctx,url):
+  output(url)
+  await ctx.send(file=discord.File("clipped.png"))
 @client.command()
 async def usercount(ctx):
   embed = discord.Embed(title="User count", description=len(client.users), color=123456)
