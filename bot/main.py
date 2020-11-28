@@ -78,7 +78,7 @@ async def music(ctx,*arg):
   await ctx.send(embed=embed)
 @client.command()
 async def avatar(ctx):
-  output(ctx.author.avatar_url)
+  output(str(ctx.author.avatar_url))
   await ctx.send(file=discord.File("clipped.png"))
 @client.command(description="Send an image")
 async def search(ctx,*arg):
