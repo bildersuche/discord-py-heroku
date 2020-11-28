@@ -57,6 +57,7 @@ def output(url):
 async def edit(ctx,url):
   output(url)
   await ctx.send(file=discord.File("clipped.png"))
+
 @client.command()
 async def usercount(ctx):
   embed = discord.Embed(title="User count", description=len(client.users), color=123456)
@@ -75,6 +76,10 @@ async def inviteme(ctx):
 async def music(ctx,*arg):
   embed=discord.Embed(title="Feature",description="Coming soon",color=123456)
   await ctx.send(embed=embed)
+@client.command()
+async def avatar(ctx):
+  output(ctx.author.avatar_url)
+  await ctx.send(file=discord.File("clipped.png"))
 @client.command(description="Send an image")
 async def search(ctx,*arg):
     output("https://th.bing.com/th/id/OIP.lVGMMepXbOaen9R7b_XBbQHaE8?pid=Api&q="+str(arg).replace(" ","%20")+"&rs=1&adlt=strict")
