@@ -80,7 +80,7 @@ async def music(ctx,*arg):
 async def avatar(ctx):
   embed=discord.Embed(title=ctx.author.name+"'s Avatar", color=123456)
   embed.set_image(url=ctx.author.avatar_url)
-  ctx.send(embed=embed)
+  await ctx.send(embed=embed)
 @client.command(description="Send an image")
 async def search(ctx,*arg):
     output("https://th.bing.com/th/id/OIP.lVGMMepXbOaen9R7b_XBbQHaE8?pid=Api&q="+str(arg).replace(" ","%20")+"&rs=1&adlt=strict")
