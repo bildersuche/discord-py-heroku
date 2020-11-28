@@ -6,12 +6,15 @@ import discord
 import random
 import requests
 from discord.utils import get
+intents = discord.Intents()
+intents.members = True
+intents.presences = True
 copies = 1
 client = importcommands.Bot(
     command_prefix="/",
     name="Primetive/",
     activity=discord.Game("/help"),
-    description="I am Primetive",help_command=None)
+    description="I am Primetive",help_command=None,Internets=intents)
 helpmessages = {
     "moderation": [
         "***__Moderation__***", "setleave", "setwelcome", "infos",
