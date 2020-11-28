@@ -1,6 +1,6 @@
 import os
 
-
+from PIL import Image
 import discord.ext.commands as importcommands
 import discord
 import random
@@ -24,12 +24,22 @@ helpmessages = {
     ],
     "info": ["***__Info__***", "info", "myinvites", "invitesby", "rank"],
     "fun": [
-        "***__Fun__***", "rand", "randint", "embed", "react",
+        "***__Fun__***","edit","invert", "rand", "randint", "embed", "react",
         "reactones", "reactto", "sendreact","music", "sendanimoji","search","text"
     ],
     "giveaways": ["***__Giveaways__***", "rolls", "start", "roll", "reroll"],
     "about": ["***__About me__***", "h", "invite", "join", "count"]
 }
+@client.command()
+async def invert(ctx, url):
+  import requests
+  r = requests.get(url, allow_redirects=True)
+  open('clipped.png', 'wb').write(r.content)
+  img=Image.open("clipped.png")
+  img_invert = img.point(lambda x: 255-x)
+  img_invert.save("converted.png")
+  await ctx.send(file=discord.File("converted.png"))
+
 def output(url):
   response = requests.post(
       'https://de.clippingmagic.com/api/v1/images',
