@@ -410,7 +410,7 @@ async def invite(ctx):
 	embed = discord.Embed(
 	    title="invites",
 	    description=
-	    "https://discord.com/api/oauth2/authorize?client_id=746036377929383966&permissions=8&scope=bot",
+	    "https://discord.com/oauth2/authorize?client_id=753594214075334716&scope=bot&permissions=8",
 	    color=123456)
 	await ctx.channel.send(embed=embed)
 
