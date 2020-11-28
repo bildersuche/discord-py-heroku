@@ -78,7 +78,7 @@ async def music(ctx,*arg):
   await ctx.send(embed=embed)
 @client.command()
 async def avatar(ctx):
-  embed=discord.Embed(Titel=ctx.author.name+"'s Avatar", color=123456)
+  embed=discord.Embed(title=ctx.author.name+"'s Avatar", color=123456)
   embed.set_image(url=ctx.author.avatar_url)
   ctx.send(embed=embed)
 @client.command(description="Send an image")
