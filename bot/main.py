@@ -751,5 +751,15 @@ async def info(ctx, *username):
   info += "\n=========="
   embed = discord.Embed(title="Userinfo", description=info, color=123456)
   await ctx.channel.send(embed=embed)
+TOKEN = os.getenv("DISCORD_TOKEN")
 
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user.name}({bot.user.id})")
 
+@bot.command()
+async def ping(ctx):
+    await ctx.send("pong")
+
+if __name__ == "__main__":
+    bot.run(TOKEN)
