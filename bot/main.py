@@ -704,11 +704,7 @@ async def on_message(msg):
 
 @client.command(description="Your rank")
 async def rank(ctx):
-  if not "--" in msg.content:
-    return
   if msg.content=="":
-    return
-  if not msg.author.id==client.user.id:
     return
   try:
     rank=requests.get("https://database.opensourcepy.repl.co/"+str(ctx.author.id)+".rank.html").text
@@ -753,13 +749,5 @@ async def info(ctx, *username):
   await ctx.channel.send(embed=embed)
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-@bot.event
-async def on_ready():
-    print(f"Logged in as {bot.user.name}({bot.user.id})")
-
-@bot.command()
-async def ping(ctx):
-    await ctx.send("pong")
-
 if __name__ == "__main__":
-    bot.run(TOKEN)
+    client.run(TOKEN)
