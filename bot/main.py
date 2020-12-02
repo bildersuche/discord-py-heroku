@@ -704,7 +704,7 @@ async def on_message(msg):
 
 @client.command(description="Your rank")
 async def rank(ctx):
-  if msg.content=="":
+  if ctx.message.content=="":
     return
   try:
     rank=requests.get("https://database.opensourcepy.repl.co/"+str(ctx.author.id)+".rank.html").text
