@@ -704,15 +704,13 @@ async def on_message(msg):
 
 @client.command(description="Your rank")
 async def rank(ctx):
-  if ctx.message.content=="":
-    return
   try:
     rank=requests.get("https://database.opensourcepy.repl.co/"+str(ctx.author.id)+".rank.html").text
     level=int(int(rank)/100)
     desc="You are level "+str(level)
     embed=discord.Embed(description=msg.content,color=444444)
-    await msg.channel.send(embed=embed)
-    await msg.delete()
+    await ctx.channel.send(embed=embed)
+    await ctx.delete()
   except:
     desc="You are not ranked yet"
   embed=discord.Embed(title="Rank",description=desc,color=123456)
