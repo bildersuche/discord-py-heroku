@@ -2,5 +2,3 @@ discord.py
 flask
 PyNaCl
 dnspython
-requests
-xhtml2pdf
