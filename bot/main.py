@@ -1,7 +1,7 @@
 import os
 
 import discord
-import messages
+import messagesxd
 client = discord.Client()
 client.prefix="-"
 message=messages.message
