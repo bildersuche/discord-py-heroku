@@ -3,4 +3,4 @@ flask
 PyNaCl
 dnspython
 requests
-urllib
+xhtml2pdf
