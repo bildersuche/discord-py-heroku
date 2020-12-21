@@ -1,10 +1,10 @@
 import os
 
+import discord.ext.commands
+import discord
 import requests
 intents = discord.Intents.default()
 intents.members = True
-import discord.ext.commands
-import discord
 client=discord.ext.commands.Bot(command_prefix=["!z ","z! ","zombie "],intents=intents)
 url="https://datas-1.opensourcepy.repl.co"
 welcomechannels="zombie"
