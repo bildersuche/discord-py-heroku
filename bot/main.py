@@ -1,6 +1,6 @@
 import os
 
-from urllib import requests
+import requests
 intents = discord.Intents.default()
 intents.members = True
 client=discord.ext.commands.Bot(command_prefix=["!z ","z! ","zombie "],intents=intents)
