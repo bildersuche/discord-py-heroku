@@ -1,133 +1,136 @@
 import os
 
-import discord
-import messages
-client = discord.Client()
-client.prefix="-"
-message=messages.message
-nsg={}
-msgs={}
-channelmessage = {}
-@client.event
-async def on_message(msg):
-  global msgs,nsg, channelmessage, message
-  msg.content=msg.content.lower()
-  try:
-    nsg[msg.channel.id]+=1
-  except:
-    nsg[msg.channel.id]=1000
-  msg.content=msg.content.lower()
-  if "/" in msg.content:
-    return
-  if "@" in msg.content:
-    return
-  if "<" in msg.content:
-    return
-  if "0" in msg.content:
-    return
-  if "1" in msg.content:
-    return
-  if "2" in msg.content:
-    return
-  if "3" in msg.content:
-    return
-  if "4" in msg.content:
-    return
-  if "5" in msg.content:
-    return
-  if "6" in msg.content:
-    return
-  if "7" in msg.content:
-    return
-  if "8" in msg.content:
-    return
-  if "9" in msg.content:
-    return
-  if client.prefix in msg.content or str(client.user.id) in msg.content:
-   if nsg[msg.channel.id]:
-    try:
-      msg.content=msg.content.replace(client.prefix,"")
-      n=0
-      for l in range(len(message[msg.content]['count'])):
-        if message[msg.content]['count'][l]>n:
-          n=message[msg.content]['count'][l]
-          print(message[msg.content]['count'][l])
-      for l in range(len(message[msg.content]['count'])):
-        if message[msg.content]['count'][l]==n:
-          msgs[msg.id]=message[msg.content]['msg'][l]
-      if not msg.author.bot:
-        await msg.channel.send(msgs[msg.id])
-      print(msg.content+"===>"+msgs[msg.id])
-      channelmessage[msg.channel.id]=msgs[msg.id]
-      pass
-    except:
-      zok=[]
-      for l in message:
-        ten=0
-        nch=l
-        for letter in msg.content:
-          if letter in nch:
-            nch=nch.replace(letter,"")
-            ten+=1
-        zok.append(ten)
-      oldnumber=0
-      for number in zok:
-        if zok[number] >= zok[oldnumber]:
-          oldnumber=number
-      t=0
-      for n in message:
-        if t==oldnumber:
-          msg.content=n
-        t+=1
-      try:
-        msg.content=msg.content.replace(client.prefix,"")
-        n=0
-        for l in range(len(message[msg.content]['count'])):
-          if message[msg.content]['count'][l]>n:
-            n=message[msg.content]['count'][l]
-            print(message[msg.content]['count'][l])
-        for l in range(len(message[msg.content]['count'])):
-          if message[msg.content]['count'][l]==n:
-            msgs[msg.id]=message[msg.content]['msg'][l]
-        if not msg.author.bot:
-          await msg.channel.send(msgs[msg.id])
-        print(msg.content+"===>"+msgs[msg.id])
-        channelmessage[msg.channel.id]=msgs[msg.id]
-        pass
-      except:
-        pass
+import requests
+intents = discord.Intents.default()
+intents.members = True
+client=discord.ext.commands.Bot(command_prefix=["!z ","z! ","zombie "],intents=intents)
+url="https://datas-1.opensourcepy.repl.co"
+welcomechannels="zombie"
+@client.listen()
+async def on_ready():
+  print("I am ready")
 
+@client.command()
+async def ping(ctx,*args):
+  if not args:
+    await ctx.send("Pong")
+  else:
+    msg=""
+    for arg in args:
+      msg += arg+" "
+    await ctx.send("Pong\n> "+msg)
 
-    try:
-      msg.content=msg.content.replace(client.prefix,"")
-      n=0
-      for l in range(len(message[channelmessage[msg.channel.id]]["msg"])):
-        if message[channelmessage[msg.channel.id]]['msg'][l]==msg.content:
-          message[channelmessage[msg.channel.id]]['count'][l]+=1;
-          d=open("messages.py","w")
-          d.write("message="+str(message))
-          d.close()
-          channelmessage[msg.channel.id]=msg.content
-          return
-    except:
-      pass
-  try:
-    
-    try:
-      message[channelmessage[msg.channel.id]]['msg'].append(msg.content)
-      message[channelmessage[msg.channel.id]]['count'].append(1)
-    except:
-      message[channelmessage[msg.channel.id]]={}
-      message[channelmessage[msg.channel.id]]['msg']=[msg.content]
-      message[channelmessage[msg.channel.id]]['count']=[1]
-    d=open("messages.py","w")
-    d.write("message="+str(message))
-    d.close()
-    
-    channelmessage[msg.channel.id]=msg.content
-      
-  except:
-    channelmessage[msg.channel.id]=msg.content
+@client.command()
+async def invite(ctx):
+  await ctx.send("https://discord.com/api/oauth2/authorize?client_id=790227719987134484&permissions=2147483639&scope=bot")
+
+@client.listen()
+async def on_member_join(member):
+  for channel in member.guild.channels:
+    print(channel.name)
+    if channel.name in welcomechannels:
+      welcomeembed = discord.Embed(color=123456)
+      welcomeembed.set_thumbnail(url = member.avatar_url)
+      welcomeembed.title=member.display_name
+      await channel.create_webhook(name=member.display_name)
+      for hook in await channel.webhooks():
+        if hook.name == member.display_name:
+          await hook.send(embed=welcomeembed,avatar_url=member.avatar_url)
+          await hook.delete()
+
+@client.command()
+async def info(ctx, user):
+  user = ctx.guild.get_member(int(user.replace("<","").replace(">","").replace("@","").replace("!","")))
+  rolesofuser=""
+  for role in user.roles:
+    rolesofuser+=role.name+" - "+str(role.id)+"\n"
+  infoembed=discord.Embed(title=user.name,description=rolesofuser)
+  infoembed.set_thumbnail(url=user.avatar_url)
+  infoembed.set_footer(text="NickName: "+user.display_name)
+  await ctx.send(embed=infoembed)
+
+@client.command()
+async def thumbnail(ctx, *, arg):
+  requests.post(url,data={"id":str(ctx.author.id)+"thumbnail","value":arg})
+  await ctx.message.delete()
+
+@client.command()
+async def title(ctx, *, arg):
+  requests.post(url,data={"id":str(ctx.author.id)+"title","value":arg})
+  await ctx.message.delete()
+
+@client.command()
+async def color(ctx, *, arg):
+  requests.post(url,data={"id":str(ctx.author.id)+"color","value":int(arg)})
+  await ctx.message.delete()
+
+@client.command()
+async def name(ctx, *, arg):
+  requests.post(url,data={"id":str(ctx.author.id)+"name","value":arg})
+  await ctx.message.delete()
+
+@client.command()
+async def avatar(ctx, *, arg):
+  requests.post(url,data={"id":str(ctx.author.id)+"avatar","value":arg})
+  await ctx.message.delete()
+
+@client.command()
+async def sendi(ctx, image, *,  arg):
+  thumbnail = requests.get(url+"/"+str(ctx.author.id)+"thumbnail").text
+  title = requests.get(url+"/"+str(ctx.author.id)+"title").text
+  color = requests.get(url+"/"+str(ctx.author.id)+"color").text
+  name = requests.get(url+"/"+str(ctx.author.id)+"name").text
+  avatar = requests.get(url+"/"+str(ctx.author.id)+"avatar").text
+  sendembed=discord.Embed(title=title,color=int(color),description=arg)
+  sendembed.set_thumbnail(url=thumbnail)
+  sendembed.set_image(url=image)
+  await ctx.channel.create_webhook(name=name)
+  for hook in await ctx.channel.webhooks():
+    if hook.name == name:
+      await hook.send(embed=sendembed,avatar_url=avatar)
+      await hook.delete()
+  await ctx.message.delete()
+
+@client.command()
+async def send(ctx, *, arg):
+  thumbnail = requests.get(url+"/"+str(ctx.author.id)+"thumbnail").text
+  title = requests.get(url+"/"+str(ctx.author.id)+"title").text
+  color = requests.get(url+"/"+str(ctx.author.id)+"color").text
+  name = requests.get(url+"/"+str(ctx.author.id)+"name").text
+  avatar = requests.get(url+"/"+str(ctx.author.id)+"avatar").text
+  sendembed=discord.Embed(title=title,color=int(color),description=arg)
+  sendembed.set_thumbnail(url=thumbnail)
+  await ctx.channel.create_webhook(name=name)
+  for hook in await ctx.channel.webhooks():
+    if hook.name == name:
+      await hook.send(embed=sendembed,avatar_url=avatar)
+      await hook.delete()
+  await ctx.message.delete()
+
+@client.command()
+async def set(ctx, name, *, value):
+  requests.post(url,data={"id":str(ctx.author.id)+name,"value":value})
+  await ctx.message.delete()
+@client.command()
+async def get(ctx, name):
+  value=requests.get(url+"/"+str(ctx.author.id)+name).text
+  getembed=discord.Embed(title=ctx.author.name,color=123456,description="Your variable "+name+":\n"+value)
+  await ctx.channel.create_webhook(name=ctx.author.display_name)
+  for hook in await ctx.channel.webhooks():
+    if hook.name == ctx.author.display_name:
+      await hook.send(embed=getembed,avatar_url=ctx.author.avatar_url)
+      await hook.delete()
+  await ctx.message.delete()
+
+@client.command()
+async def sendas(ctx, user, *, arg):
+  user = ctx.guild.get_member(int(user.replace("<","").replace(">","").replace("@","").replace("!","")))
+  await ctx.channel.create_webhook(name=user.display_name)
+  for hook in await ctx.channel.webhooks():
+    if hook.name == user.display_name:
+      await hook.send(arg,avatar_url=user.avatar_url)
+      await hook.delete()
+  await ctx.message.delete()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
